@@ -33,13 +33,16 @@
   const activeEvents = [];
   const completedEvents = [];
 
-  const CreateContainer = React.createClass({
+  const RenderActiveEvents = React.createClass({
 
     render: function () {
+      const inputValue = document.getElementById('inputEvent').value;
+      if (inputValue != '') {
 
-      activeEvents.push(document.getElementById('inputEvent').value);
-
-      const activeEventsLists = activeEvents.map(activeEvent => {
+        activeEvents.push(inputValue);
+        document.getElementById('inputEvent').value = '';
+      }
+      const eventsLists = activeEvents.map(activeEvent => {
         return (
           <li className="list-group-item">
             <input type="checkbox" value=""/>
@@ -50,25 +53,79 @@
       });
       return (
         <ul className="list-group" id="activeEvents">
-          {activeEventsLists}
+          {eventsLists}
+        </ul>
+      )
+
+    }
+  });
+
+  const RenderAllEvents = React.createClass({
+
+    render: function () {
+
+      const allEvents = activeEvents.concat(completedEvents);
+
+      const eventsLists = allEvents.map(event => {
+        return (
+          <li className="list-group-item">
+            <input type="checkbox" value=""/>
+            {event}
+            <button type="button">X</button>
+          </li>
+        )
+      });
+      return (
+        <ul className="list-group" id="allEvents">
+          {eventsLists}
+        </ul>
+      )
+    }
+  });
+
+  const RenderCompletedEvents = React.createClass({
+
+    render: function () {
+
+      const eventsLists = completedEvents.map(event => {
+        return (
+          <li className="list-group-item">
+            <input type="checkbox" value=""/>
+            {event}
+            <button type="button">X</button>
+          </li>
+        )
+      });
+      return (
+        <ul className="list-group" id="completedEvents">
+          {eventsLists}
         </ul>
       )
     }
   });
 
   const CreateFooter = React.createClass({
+    renderAll: function () {
+      ReactDOM.render(<RenderAllEvents />, document.getElementById('container'));
+    },
+    renderActive: function () {
+      ReactDOM.render(<RenderActiveEvents />, document.getElementById('container'));
+    },
+    renderCompleted: function () {
+      ReactDOM.render(<RenderCompletedEvents />, document.getElementById('container'));
+    },
     render: function () {
       return (
         <div className="btn-group">
-          <label className="btn btn-primary">
-            <input type="radio" name="options" id="option1"/> all
-          </label>
-          <label className="btn btn-primary btn-default">
-            <input type="radio" name="options" id="option2" checked="true"/> active
-          </label>
-          <label className="btn btn-primary">
-            <input type="radio" name="options" id="option3"/> completed
-          </label>
+          <button className="btn btn-primary input-sm" type="button"
+                  onClick={this.renderAll}>all
+          </button>
+          <button className="btn btn-primary input-sm" type="button"
+                  onClick={this.renderActive}>active
+          </button>
+          <button className="btn btn-primary input-sm" type="button"
+                  onClick={this.renderCompleted}>completed
+          </button>
         </div>
       );
     }
@@ -76,20 +133,18 @@
 
   const SetInput = React.createClass({
 
-
     submitContent: function () {
-      ReactDOM.render(<CreateContainer />, document.getElementById('container'));
+      ReactDOM.render(<RenderActiveEvents />, document.getElementById('container'));
       ReactDOM.render(<CreateFooter />, document.getElementById('footer'));
     },
     render: function () {
       return (
         <div className="input-group">
-          <input type="text" id="inputEvent" className="form-control input-lg"/>
+          <input type="text" id="inputEvent" className="form-control input-lg" placeholder="please input todo event"/>
           <span className="input-group-btn">
           <button className="btn btn-primary input-lg" type="button" id="submit"
                   onClick={this.submitContent}>submit</button>
           </span>
-
         </div>
       )
     }
