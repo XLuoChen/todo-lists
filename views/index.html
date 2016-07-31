@@ -30,11 +30,22 @@
 
 <script type="text/babel">
 
-  const activeEvents = [];
-  const completedEvents = [];
+  let activeEvents = [];
+  let completedEvents = [];
 
   const RenderActiveEvents = React.createClass({
 
+    updateEvent: function () {
+      const checkedEvent = document.getElementById('delete1');
+      if (checkedEvent.checked === true) {
+        activeEvents = activeEvents.splice(activeEvents.indexOf(checkedEvent.innerHTML), 1);
+        completedEvents.push(checkedEvent.innerHTML);
+      }
+    },
+    deleteEvents: function () {
+      const deleteEvent = document.getElementById('delete1').innerHTML;
+      activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
+    },
     render: function () {
       const inputValue = document.getElementById('inputEvent').value;
       if (inputValue != '') {
@@ -45,9 +56,9 @@
       const eventsLists = activeEvents.map(activeEvent => {
         return (
           <li className="list-group-item">
-            <input type="checkbox" value=""/>
+            <input type="checkbox" value="" id="delete1" onClick={this.updateEvent}/>
             {activeEvent}
-            <button type="button">X</button>
+            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
@@ -56,12 +67,14 @@
           {eventsLists}
         </ul>
       )
-
     }
   });
 
   const RenderAllEvents = React.createClass({
-
+    deleteEvents: function () {
+      const deleteEvent = document.getElementById('event').innerHTML;
+      activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
+    },
     render: function () {
 
       const allEvents = activeEvents.concat(completedEvents);
@@ -69,9 +82,9 @@
       const eventsLists = allEvents.map(event => {
         return (
           <li className="list-group-item">
-            <input type="checkbox" value=""/>
+            <input type="checkbox" value="" id="event"/>
             {event}
-            <button type="button">X</button>
+            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
@@ -85,14 +98,18 @@
 
   const RenderCompletedEvents = React.createClass({
 
+    deleteEvents: function () {
+      const deleteEvent = document.getElementById('event').innerHTML;
+      activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
+    },
     render: function () {
 
       const eventsLists = completedEvents.map(event => {
         return (
           <li className="list-group-item">
-            <input type="checkbox" value=""/>
+            <input type="checkbox" value="" id="event"/>
             {event}
-            <button type="button">X</button>
+            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
@@ -105,6 +122,7 @@
   });
 
   const CreateFooter = React.createClass({
+
     renderAll: function () {
       ReactDOM.render(<RenderAllEvents />, document.getElementById('container'));
     },
@@ -151,7 +169,6 @@
   });
 
   ReactDOM.render(<SetInput />, document.getElementById('input'));
-
 
 </script>
 
