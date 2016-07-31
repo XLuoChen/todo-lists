@@ -38,12 +38,12 @@
     updateEvent: function () {
       const checkedEvent = document.getElementById('delete1');
       if (checkedEvent.checked === true) {
-        activeEvents = activeEvents.splice(activeEvents.indexOf(checkedEvent.innerHTML), 1);
-        completedEvents.push(checkedEvent.innerHTML);
+        completedEvents.push(checkedEvent.childNodes);
+        activeEvents.splice(activeEvents.indexOf(checkedEvent.children), 1);
       }
     },
     deleteEvents: function () {
-      const deleteEvent = document.getElementById('delete1').innerHTML;
+      const deleteEvent = document.getElementById('delete1').children;
       activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
     },
     render: function () {
@@ -58,7 +58,7 @@
           <li className="list-group-item">
             <input type="checkbox" value="" id="delete1" onClick={this.updateEvent}/>
             {activeEvent}
-            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
+            <button type="button" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
@@ -72,7 +72,7 @@
 
   const RenderAllEvents = React.createClass({
     deleteEvents: function () {
-      const deleteEvent = document.getElementById('event').innerHTML;
+      const deleteEvent = document.getElementById('event').children;
       activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
     },
     render: function () {
@@ -84,7 +84,7 @@
           <li className="list-group-item">
             <input type="checkbox" value="" id="event"/>
             {event}
-            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
+            <button type="button" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
@@ -99,7 +99,7 @@
   const RenderCompletedEvents = React.createClass({
 
     deleteEvents: function () {
-      const deleteEvent = document.getElementById('event').innerHTML;
+      const deleteEvent = document.getElementById('event').children;
       activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
     },
     render: function () {
@@ -109,7 +109,7 @@
           <li className="list-group-item">
             <input type="checkbox" value="" id="event"/>
             {event}
-            <button type="button" className="delete" onClick={this.deleteEvents}>X</button>
+            <button type="button" onClick={this.deleteEvents}>X</button>
           </li>
         )
       });
