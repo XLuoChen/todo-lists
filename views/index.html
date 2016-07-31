@@ -12,24 +12,44 @@
   <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div style="padding: 100px 100px 10px;" id='div'>
-  <form class="bs-example bs-example-form" role="form">
-    <div class="col-lg-6">
-      <div class="input-group">
-        <input type="text" class="form-control" id="input">
-        <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button" id="submit">
-                     Go!
-                  </button>
-               </span>
-      </div>
-    </div>
-  </form>
-  <div id='test'></div>
+<div style="padding: 100px 200px 10px;">
+  <div id="header">
+    <form class="bs-example bs-example-form" role="form">
+      <div class="col-lg-7" id='input'></div>
+    </form>
+  </div>
+
+  <div class="col-lg-7" id="container">
+    <ul class="list-group" id="showEvents"></ul>
+  </div>
+
+  <div id = "footer"></div>
+
 </div>
 
-<script type="text/babel" src = "./index.jsx">
+
+<script type="text/babel">
+
+  const SetInput = React.createClass({
+
+    render: function () {
+      return (
+        <div className="input-group">
+          <input type="text" id="inputEvent" className="form-control input-lg"/>
+          <span className="input-group-btn">
+          <button className="btn btn-primary input-lg" type="button" id="submit"
+                  onClick={this.submitContent}>submit</button>
+          </span>
+
+        </div>
+      )
+    }
+  });
+
+  ReactDOM.render(<SetInput />, document.getElementById('input'));
+
 
 </script>
+
 </body>
 </html>
