@@ -19,19 +19,68 @@
     </form>
   </div>
 
-  <div class="col-lg-7" id="container">
-    <ul class="list-group" id="showEvents"></ul>
-  </div>
+  <div class="col-lg-7" id="container"></div>
 
-  <div id = "footer"></div>
+  <div class="col-lg-7" id="footer">
+    <ul class="list-group"></ul>
+  </div>
 
 </div>
 
 
 <script type="text/babel">
 
+  const activeEvents = [];
+  const completedEvents = [];
+
+  const CreateContainer = React.createClass({
+
+    render: function () {
+
+      activeEvents.push(document.getElementById('inputEvent').value);
+
+      const activeEventsLists = activeEvents.map(activeEvent => {
+        return (
+          <li className="list-group-item">
+            <input type="checkbox" value=""/>
+            {activeEvent}
+            <button type="button">X</button>
+          </li>
+        )
+      });
+      return (
+        <ul className="list-group" id="activeEvents">
+          {activeEventsLists}
+        </ul>
+      )
+    }
+  });
+
+  const CreateFooter = React.createClass({
+    render: function () {
+      return (
+        <div className="btn-group">
+          <label className="btn btn-primary">
+            <input type="radio" name="options" id="option1"/> all
+          </label>
+          <label className="btn btn-primary btn-default">
+            <input type="radio" name="options" id="option2" checked="true"/> active
+          </label>
+          <label className="btn btn-primary">
+            <input type="radio" name="options" id="option3"/> completed
+          </label>
+        </div>
+      );
+    }
+  });
+
   const SetInput = React.createClass({
 
+
+    submitContent: function () {
+      ReactDOM.render(<CreateContainer />, document.getElementById('container'));
+      ReactDOM.render(<CreateFooter />, document.getElementById('footer'));
+    },
     render: function () {
       return (
         <div className="input-group">
