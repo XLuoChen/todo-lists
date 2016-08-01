@@ -38,12 +38,12 @@
     updateEvent: function () {
       const checkedEvent = document.getElementById('delete1');
       if (checkedEvent.checked === true) {
-        completedEvents.push(checkedEvent.childNodes);
+        completedEvents.push(checkedEvent.children);
         activeEvents.splice(activeEvents.indexOf(checkedEvent.children), 1);
       }
     },
     deleteEvents: function () {
-      const deleteEvent = document.getElementById('delete1').children;
+      const deleteEvent = document.getElementById('delete1').refs.children;
       activeEvents.splice(activeEvents.indexOf(deleteEvent), 1);
     },
     render: function () {
@@ -55,8 +55,8 @@
       }
       const eventsLists = activeEvents.map(activeEvent => {
         return (
-          <li className="list-group-item">
-            <input type="checkbox" value="" id="delete1" onClick={this.updateEvent}/>
+          <li className="list-group-item" >
+            <input type="checkbox" value="" id="delete1" ref = "myEvent" onClick={this.updateEvent}/>
             {activeEvent}
             <button type="button" onClick={this.deleteEvents}>X</button>
           </li>
@@ -151,14 +151,17 @@
 
   const SetInput = React.createClass({
 
-    submitContent: function () {
+    submitContent: function (e) {
+      if(e.key!='Enter'){
+        return;
+      }
       ReactDOM.render(<RenderActiveEvents />, document.getElementById('container'));
       ReactDOM.render(<CreateFooter />, document.getElementById('footer'));
     },
     render: function () {
       return (
         <div className="input-group">
-          <input type="text" id="inputEvent" className="form-control input-lg" placeholder="please input todo event"/>
+          <input type="text" id="inputEvent" className="form-control input-lg" placeholder="please input todo event" onKeyPress={this.submitContent}/>
           <span className="input-group-btn">
           <button className="btn btn-primary input-lg" type="button" id="submit"
                   onClick={this.submitContent}>submit</button>
